@@ -9,6 +9,7 @@ export class MessageController {
 
     @Post()
     async create(@Body() createMessageDto: CreateMessageDto): Promise<MessageEntity> {
+      console.log("create message",createMessageDto)
       return await this.messageService.createMessage(createMessageDto);
     }
   

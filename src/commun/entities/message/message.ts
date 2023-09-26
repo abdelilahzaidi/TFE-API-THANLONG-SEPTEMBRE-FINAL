@@ -1,23 +1,32 @@
 // message.entity.ts
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany, ManyToMany, JoinTable } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, ManyToMany, JoinTable } from 'typeorm';
 import { UserEntity } from '../user/user';
-
 
 @Entity('message')
 export class MessageEntity {
-    @PrimaryGeneratedColumn()
-    id: number;
-  
-    @Column()
-    titre: string;
-  
-    @Column()
-    contenu: string;
-  
-    @ManyToMany(() => UserEntity, (user) => user.receivedMessages) // Correction ici
-    @JoinTable()
-    receivers: UserEntity[]; // Un ou plusieurs utilisateurs peuvent recevoir ce message
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @ManyToOne(() => UserEntity, (user) => user.sentMessages)
-    sender: UserEntity;
-  }
+  @Column()
+  titre: string;
+
+  @Column()
+  contenu: string;
+
+  @ManyToMany(() => UserEntity, (user) => user.receivedMessages)
+  @JoinTable({
+    name: 'message_user',
+    joinColumn: {
+      name: 'messageId',
+      referencedColumnName: 'id',
+    },
+    inverseJoinColumn: {
+      name: 'userId',
+      referencedColumnName: 'id',
+    },
+  })
+  receivers: UserEntity[];
+
+  @ManyToOne(() => UserEntity, (user) => user.sentMessages)
+  sender: UserEntity;
+}
