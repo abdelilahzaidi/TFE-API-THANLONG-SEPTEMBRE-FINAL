@@ -7,5 +7,12 @@ export class LieuEntity{
     id : number;
 
     @Column()
-    adresse: string;
+    rue: string;
+
+    @Column()
+    commune:string;
+
+    @Column()
+    ville:string
+ 
 }

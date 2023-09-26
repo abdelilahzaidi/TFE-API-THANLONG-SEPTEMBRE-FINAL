@@ -16,7 +16,7 @@ import { AbonnementModule } from './modules/abonnement/abonnement.module';
 import { TypeAbonnementModule } from './modules/type-abonnement/type-abonnement.module';
 import { DateCourModule } from './modules/date-cour/date-cour.module';
 import { SeanceUserModule } from './modules/seance-user/seance-user.module';
-import { ServiceService } from './service/service.service';
+
 import { MessageController } from './modules/message/message.controller';
 
 @Module({
@@ -38,6 +38,6 @@ import { MessageController } from './modules/message/message.controller';
     SeanceUserModule    
   ],
   controllers: [AppController, MessageController],
-  providers: [AppService, ServiceService],
+  providers: [AppService],
 })
 export class AppModule {}

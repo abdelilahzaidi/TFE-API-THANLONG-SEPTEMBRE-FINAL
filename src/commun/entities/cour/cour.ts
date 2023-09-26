@@ -9,7 +9,7 @@ export class CourEntity{
     id : number;
 
     @Column()
-    contenu: string;
+    objectifDuCour: string;
 
    
     @ManyToOne(() => LieuEntity, lieu => lieu.id, { nullable: true })

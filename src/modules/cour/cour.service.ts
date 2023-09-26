@@ -23,7 +23,7 @@ export class CourService {
             const lieu = await this.lieuService.findLieuById(dto.lieuId); // Récupérez le programme associé
 
             const cour = new CourEntity();
-            cour.contenu=dto.contenu
+            cour.objectifDuCour=dto.objectifDuCour
             cour.lieu=lieu      
      
 

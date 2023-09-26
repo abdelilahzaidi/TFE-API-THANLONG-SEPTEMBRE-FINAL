@@ -88,6 +88,19 @@ export class MessageService {
         }
         return message;
       }
+
+      // async getMessageByTitle(title: string): Promise<any> {
+      //   const message = await this.messageRepository.findOne({ where: { title } });
+      //   console.log('message',message)
+      //   if (!message) {
+      //     throw new NotFoundException(`Message with title ${title} not found`);
+      //   }
+      //   return message;
+      // }
+
+
+
+ 
     
       async deleteMessage(id: number): Promise<void> {
         const message = await this.messageRepository.findOne({where: { id }});

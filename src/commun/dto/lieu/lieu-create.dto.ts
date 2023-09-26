@@ -2,6 +2,11 @@ import { IsNotEmpty } from "class-validator";
 
 export class CreateLieuDto {
     @IsNotEmpty()
-    adresse: string;    
+    rue: string;   
     
+    @IsNotEmpty()
+    commune: string;   
+
+    @IsNotEmpty()
+    ville: string;   
 }

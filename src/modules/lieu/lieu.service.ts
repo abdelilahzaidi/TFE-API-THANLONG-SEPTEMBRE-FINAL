@@ -21,7 +21,10 @@ export class LieuService {
         try {//const program = await this.programService.findProgramById(dto.programId); // Récupérez le programme associé
 
             const lieu = new LieuEntity();
-                    lieu.adresse=dto.adresse
+                    
+                    lieu.rue=dto.rue
+                    lieu.commune=dto.commune
+                    lieu.ville=dto.ville
 
             const savedLieu = await this.lieuRepository.save(lieu);
 
