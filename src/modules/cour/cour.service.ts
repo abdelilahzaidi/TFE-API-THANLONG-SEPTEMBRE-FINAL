@@ -1,4 +1,4 @@
-import { ConflictException, Injectable } from '@nestjs/common';
+import { ConflictException, Injectable, InternalServerErrorException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateLieuDto } from 'src/commun/dto/lieu/lieu-create.dto';
 import { CourEntity } from 'src/commun/entities/cour/cour';
@@ -32,10 +32,10 @@ export class CourService {
             console.log('in service', savedCour);
             return savedCour;
         } catch (error) {
-            if (error.code === '23505') {
-                throw new ConflictException('Duplicate Entry');
-            }
-            throw error;
+          throw new InternalServerErrorException(
+            error,
+            "Une erreur est survenue lors de la creation du niveau de l'utilisateur.",
+          );
         }
     }    
       async findLevelById(id: number): Promise<CourEntity | undefined> {

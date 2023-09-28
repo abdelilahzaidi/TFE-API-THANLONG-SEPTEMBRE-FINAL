@@ -1,4 +1,4 @@
-import { ConflictException, Injectable } from '@nestjs/common';
+import { ConflictException, Injectable, InternalServerErrorException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateLieuDto } from 'src/commun/dto/lieu/lieu-create.dto';
 import { LieuEntity } from 'src/commun/entities/lieu/lieu';
@@ -18,7 +18,7 @@ export class LieuService {
       }
 
       async createLieu(dto: CreateLieuDto): Promise<LieuEntity> {
-        try {//const program = await this.programService.findProgramById(dto.programId); // Récupérez le programme associé
+        try {
 
             const lieu = new LieuEntity();
                     
@@ -31,10 +31,10 @@ export class LieuService {
             console.log('in service', savedLieu);
             return savedLieu;
         } catch (error) {
-            if (error.code === '23505') {
-                throw new ConflictException('Duplicate Entry');
-            }
-            throw error;
+          throw new InternalServerErrorException(
+            error,
+            "Une erreur est survenue lors de la creation du lieu.",
+          );
         }
     }    
       async findLieuById(id: number): Promise<LieuEntity | undefined> {

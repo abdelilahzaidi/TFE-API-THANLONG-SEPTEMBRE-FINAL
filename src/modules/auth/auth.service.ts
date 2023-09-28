@@ -1,6 +1,6 @@
 
 import { UserService } from './../user/user.service';
-import { BadRequestException, ConflictException, Injectable, UnauthorizedException } from '@nestjs/common';
+import { BadRequestException, ConflictException, Injectable, InternalServerErrorException, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { LoginDTO } from 'src/commun/dto/auth/login.dto';
@@ -37,10 +37,10 @@ async signup(signUpDto: SignUpDTO): Promise<UserEntity> {
 
         return user;
     } catch (error) {
-        if (error.code = 11000) {
-            throw new ConflictException('Duplicate Email!!');
-        }
-        throw error;
+        throw new InternalServerErrorException(
+          error,
+          "Une erreur est survenue lors de l'inscription de l'utilisateur.",
+        );
     }
 }
 

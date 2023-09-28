@@ -27,6 +27,11 @@ export class AuthController {
     return await this.authService.login(loginDTO);
   }
 
+   @Get("")
+   async test() {
+    console.log(process.env.DB_USERNAME)
+   }
+
 //Get current user
   @Get('user')
   @UseGuards(AuthGuard())
