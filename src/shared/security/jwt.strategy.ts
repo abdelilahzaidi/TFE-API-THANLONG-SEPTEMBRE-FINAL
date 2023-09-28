@@ -13,10 +13,10 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       ignoreExpiration: false,
-      secretOrKey: '14101983',
+      secretOrKey: process.env.SECRETORKEY,
     });
   }
-
+ 
   async validate(payload) {
 
     const {id}=payload;

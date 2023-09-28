@@ -18,9 +18,14 @@ import { DateCourModule } from './modules/date-cour/date-cour.module';
 import { SeanceUserModule } from './modules/seance-user/seance-user.module';
 
 import { MessageController } from './modules/message/message.controller';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      envFilePath: '.env',
+      isGlobal: true
+    }),
     BdModule,
     AuthModule,
     UserModule,
