@@ -13,7 +13,12 @@ export class SeanceUserEntity {
     @ManyToOne(() => UserEntity, (user) => user.seanceUsers)
     user: UserEntity;
 
-    @Column({ default: false }) // Par défaut, la présence est à "false" (absence)
+    @Column({ default: false }) 
     presence: boolean;
+    @Column()
+    userId : number;
+
+    @Column()
+    seanceId : number;
 }
 

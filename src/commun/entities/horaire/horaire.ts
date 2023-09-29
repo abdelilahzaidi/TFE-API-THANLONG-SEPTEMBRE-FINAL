@@ -12,9 +12,9 @@ export class HoraireEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({type : 'time'})
   heureDebut: Date;
-  @Column()
+  @Column({type : 'time'})
   heureFin: Date;
   @Column()
   jour: Date;

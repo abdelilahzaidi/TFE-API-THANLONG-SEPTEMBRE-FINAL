@@ -1,10 +1,14 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
 import { UserService } from './user.service';1
 import { UserEntity } from 'src/commun/entities/user/user';
 import { UserCreateDTO } from 'src/commun/dto/user/user-create.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { MessageEntity } from 'src/commun/entities/message/message';
-import { ArrayContains, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
+import { UserSeanceDTO } from 'src/commun/dto/user/user-seance.dto';
+import { StatusGuard } from 'src/shared/security/status.guard';
+import { Status } from 'src/shared/security/status.decorator';
+import { UserStatus } from 'src/commun/enums/status.enum';
 
 
 
@@ -16,6 +20,7 @@ export class UserController {
     ){}
     @Get()
     async all():Promise<UserEntity[]>{
+        
         return await this.userService.all()
     }
     @Post()
@@ -53,5 +58,13 @@ export class UserController {
         });
 
         return this.userService.findOneById(id);
+    }
+
+    @UseGuards(StatusGuard)
+    @Status(UserStatus.RESPONSABLE)
+    @Put('participate/:id')
+    async updateParticipation(@Body() dto :UserSeanceDTO,id :number){
+        return await this.userService.updateParticipeSeance(id, dto.presence)
+        
     }
 }

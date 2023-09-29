@@ -1,6 +1,7 @@
 import { IsNotEmpty } from "class-validator";
 
-export class RoleCreateDTO{
+export class CreateDateCourDTO{
     @IsNotEmpty()
-    name:string;
+    dateCour: Date;    
+    
 }

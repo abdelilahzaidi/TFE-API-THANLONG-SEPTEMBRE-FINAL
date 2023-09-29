@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 8.0.33, for Win64 (x86_64)
 --
--- Host: localhost    Database: dragonbleu
+-- Host: localhost    Database: thdb
 -- ------------------------------------------------------
 -- Server version	8.0.33
 
@@ -54,12 +54,12 @@ DROP TABLE IF EXISTS `cour`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `cour` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `contenu` varchar(255) NOT NULL,
+  `objectifDuCour` varchar(255) NOT NULL,
   `lieuId` int DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `FK_c6c233191bde5b3a58f06b14ad8` (`lieuId`),
   CONSTRAINT `FK_c6c233191bde5b3a58f06b14ad8` FOREIGN KEY (`lieuId`) REFERENCES `lieu` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -68,38 +68,31 @@ CREATE TABLE `cour` (
 
 LOCK TABLES `cour` WRITE;
 /*!40000 ALTER TABLE `cour` DISABLE KEYS */;
+INSERT INTO `cour` VALUES (1,'Remise en forme',1);
 /*!40000 ALTER TABLE `cour` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `event`
+-- Table structure for table `datecour`
 --
 
-DROP TABLE IF EXISTS `event`;
+DROP TABLE IF EXISTS `datecour`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `event` (
+CREATE TABLE `datecour` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) NOT NULL,
-  `dateDebut` datetime NOT NULL,
-  `dateFin` datetime NOT NULL,
-  `eventTypeId` int DEFAULT NULL,
-  `lieuId` int DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `FK_3b674f340d59a5fc144f2229763` (`eventTypeId`),
-  KEY `FK_14191a2fba2b928e3528c01e03a` (`lieuId`),
-  CONSTRAINT `FK_14191a2fba2b928e3528c01e03a` FOREIGN KEY (`lieuId`) REFERENCES `lieu` (`id`),
-  CONSTRAINT `FK_3b674f340d59a5fc144f2229763` FOREIGN KEY (`eventTypeId`) REFERENCES `type_event` (`id`)
+  `dateCour` datetime NOT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `event`
+-- Dumping data for table `datecour`
 --
 
-LOCK TABLES `event` WRITE;
-/*!40000 ALTER TABLE `event` DISABLE KEYS */;
-/*!40000 ALTER TABLE `event` ENABLE KEYS */;
+LOCK TABLES `datecour` WRITE;
+/*!40000 ALTER TABLE `datecour` DISABLE KEYS */;
+/*!40000 ALTER TABLE `datecour` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -164,12 +157,12 @@ DROP TABLE IF EXISTS `level`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `level` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `grade` varchar(255) NOT NULL,
+  `grade` enum('0 cap','1er cap','2eme cap','3eme cap') NOT NULL DEFAULT '0 cap',
   `programId` int DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `REL_0226ebdefb259058335bc8d5b7` (`programId`),
   CONSTRAINT `FK_0226ebdefb259058335bc8d5b74` FOREIGN KEY (`programId`) REFERENCES `program` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -178,6 +171,7 @@ CREATE TABLE `level` (
 
 LOCK TABLES `level` WRITE;
 /*!40000 ALTER TABLE `level` DISABLE KEYS */;
+INSERT INTO `level` VALUES (1,'0 cap',1),(2,'1er cap',2),(4,'2eme cap',3),(5,'3eme cap',4);
 /*!40000 ALTER TABLE `level` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -190,9 +184,11 @@ DROP TABLE IF EXISTS `lieu`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `lieu` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `adresse` varchar(255) NOT NULL,
+  `rue` varchar(255) NOT NULL,
+  `commune` varchar(255) NOT NULL,
+  `ville` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -201,6 +197,7 @@ CREATE TABLE `lieu` (
 
 LOCK TABLES `lieu` WRITE;
 /*!40000 ALTER TABLE `lieu` DISABLE KEYS */;
+INSERT INTO `lieu` VALUES (1,'RueGuatti de gamond 181','Uccle','Bruxelles');
 /*!40000 ALTER TABLE `lieu` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -215,11 +212,12 @@ CREATE TABLE `message` (
   `id` int NOT NULL AUTO_INCREMENT,
   `titre` varchar(255) NOT NULL,
   `contenu` varchar(255) NOT NULL,
+  `dateHeureEnvoie` datetime NOT NULL,
   `senderId` int DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `FK_bc096b4e18b1f9508197cd98066` (`senderId`),
   CONSTRAINT `FK_bc096b4e18b1f9508197cd98066` FOREIGN KEY (`senderId`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -228,34 +226,8 @@ CREATE TABLE `message` (
 
 LOCK TABLES `message` WRITE;
 /*!40000 ALTER TABLE `message` DISABLE KEYS */;
+INSERT INTO `message` VALUES (2,'Calendier annuel','bzbzbzbzbz','2023-09-27 23:59:25',1);
 /*!40000 ALTER TABLE `message` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `message_receivers_users`
---
-
-DROP TABLE IF EXISTS `message_receivers_users`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `message_receivers_users` (
-  `messageId` int NOT NULL,
-  `usersId` int NOT NULL,
-  PRIMARY KEY (`messageId`,`usersId`),
-  KEY `IDX_26b2a421502805c90c5a40669e` (`messageId`),
-  KEY `IDX_5e7a8e6eab7ee9bb20ee981cd5` (`usersId`),
-  CONSTRAINT `FK_26b2a421502805c90c5a40669e7` FOREIGN KEY (`messageId`) REFERENCES `message` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `FK_5e7a8e6eab7ee9bb20ee981cd51` FOREIGN KEY (`usersId`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `message_receivers_users`
---
-
-LOCK TABLES `message_receivers_users` WRITE;
-/*!40000 ALTER TABLE `message_receivers_users` DISABLE KEYS */;
-/*!40000 ALTER TABLE `message_receivers_users` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -266,13 +238,13 @@ DROP TABLE IF EXISTS `message_user`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `message_user` (
-  `user_id` int NOT NULL,
-  `message_id` int NOT NULL,
-  PRIMARY KEY (`user_id`,`message_id`),
-  KEY `IDX_fb5c11a1a5452abfc4c4f5c63c` (`user_id`),
-  KEY `IDX_d43e65f8723678362878b29a7c` (`message_id`),
-  CONSTRAINT `FK_d43e65f8723678362878b29a7cc` FOREIGN KEY (`message_id`) REFERENCES `message` (`id`),
-  CONSTRAINT `FK_fb5c11a1a5452abfc4c4f5c63c7` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+  `messageId` int NOT NULL,
+  `userId` int NOT NULL,
+  PRIMARY KEY (`messageId`,`userId`),
+  KEY `IDX_28f58f82a46ec61ee1b1c77fb9` (`messageId`),
+  KEY `IDX_9591f0e3564991c922f448ca85` (`userId`),
+  CONSTRAINT `FK_28f58f82a46ec61ee1b1c77fb95` FOREIGN KEY (`messageId`) REFERENCES `message` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_9591f0e3564991c922f448ca85e` FOREIGN KEY (`userId`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -282,30 +254,8 @@ CREATE TABLE `message_user` (
 
 LOCK TABLES `message_user` WRITE;
 /*!40000 ALTER TABLE `message_user` DISABLE KEYS */;
+INSERT INTO `message_user` VALUES (2,2);
 /*!40000 ALTER TABLE `message_user` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `period`
---
-
-DROP TABLE IF EXISTS `period`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `period` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `period` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `period`
---
-
-LOCK TABLES `period` WRITE;
-/*!40000 ALTER TABLE `period` DISABLE KEYS */;
-/*!40000 ALTER TABLE `period` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -320,7 +270,7 @@ CREATE TABLE `program` (
   `title` varchar(255) NOT NULL,
   `contenu` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -329,57 +279,8 @@ CREATE TABLE `program` (
 
 LOCK TABLES `program` WRITE;
 /*!40000 ALTER TABLE `program` DISABLE KEYS */;
+INSERT INTO `program` VALUES (1,'Ceinture blue 0 cap','bbzbzbzbzbzbzbzzbzbz'),(2,'Ceinture blue 1er cap','bbzbzbzbzbzbzbzzbzbz'),(3,'Ceinture blue 2ème cap','bbzbzbzbzbzbzbzzbzbz'),(4,'Ceinture blue 3ème cap','bbzbzbzbzbzbzbzzbzbz'),(5,'Ceinture noire 1ère dan','bbzbzbzbzbzbzbzzbzbz'),(6,'Ceinture noire 2ème dan','bbzbzbzbzbzbzbzzbzbz'),(7,'Ceinture noire 3ème dan','bbzbzbzbzbzbzbzzbzbz');
 /*!40000 ALTER TABLE `program` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `role`
---
-
-DROP TABLE IF EXISTS `role`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `role` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `role`
---
-
-LOCK TABLES `role` WRITE;
-/*!40000 ALTER TABLE `role` DISABLE KEYS */;
-/*!40000 ALTER TABLE `role` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `role_period`
---
-
-DROP TABLE IF EXISTS `role_period`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `role_period` (
-  `period_id` int NOT NULL,
-  `role_id` int NOT NULL,
-  PRIMARY KEY (`period_id`,`role_id`),
-  KEY `IDX_cd71be299676fd4b6b62e8c747` (`period_id`),
-  KEY `IDX_31868bd36f50fb4889cdef99b0` (`role_id`),
-  CONSTRAINT `FK_31868bd36f50fb4889cdef99b0f` FOREIGN KEY (`role_id`) REFERENCES `role` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `FK_cd71be299676fd4b6b62e8c7476` FOREIGN KEY (`period_id`) REFERENCES `period` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `role_period`
---
-
-LOCK TABLES `role_period` WRITE;
-/*!40000 ALTER TABLE `role_period` DISABLE KEYS */;
-/*!40000 ALTER TABLE `role_period` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -393,11 +294,14 @@ CREATE TABLE `seance` (
   `id` int NOT NULL AUTO_INCREMENT,
   `horaireId` int DEFAULT NULL,
   `courId` int DEFAULT NULL,
+  `dateCourId` int DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `FK_800af8f9032c1de9c5693a33fa3` (`horaireId`),
   KEY `FK_96e974e1445864ff3fb11a5f72c` (`courId`),
+  KEY `FK_d5464f8e061a3334e1027fb486a` (`dateCourId`),
   CONSTRAINT `FK_800af8f9032c1de9c5693a33fa3` FOREIGN KEY (`horaireId`) REFERENCES `horaire` (`id`),
-  CONSTRAINT `FK_96e974e1445864ff3fb11a5f72c` FOREIGN KEY (`courId`) REFERENCES `cour` (`id`)
+  CONSTRAINT `FK_96e974e1445864ff3fb11a5f72c` FOREIGN KEY (`courId`) REFERENCES `cour` (`id`),
+  CONSTRAINT `FK_d5464f8e061a3334e1027fb486a` FOREIGN KEY (`dateCourId`) REFERENCES `datecour` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -411,76 +315,32 @@ LOCK TABLES `seance` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `team`
+-- Table structure for table `seance_user`
 --
 
-DROP TABLE IF EXISTS `team`;
+DROP TABLE IF EXISTS `seance_user`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `team` (
+CREATE TABLE `seance_user` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`)
+  `presence` tinyint NOT NULL DEFAULT '0',
+  `seanceId` int DEFAULT NULL,
+  `userId` int DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK_c8ffd72c4e7712d75f3179eed43` (`seanceId`),
+  KEY `FK_7cf8527b2af7bf8795bec761263` (`userId`),
+  CONSTRAINT `FK_7cf8527b2af7bf8795bec761263` FOREIGN KEY (`userId`) REFERENCES `users` (`id`),
+  CONSTRAINT `FK_c8ffd72c4e7712d75f3179eed43` FOREIGN KEY (`seanceId`) REFERENCES `seance` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `team`
+-- Dumping data for table `seance_user`
 --
 
-LOCK TABLES `team` WRITE;
-/*!40000 ALTER TABLE `team` DISABLE KEYS */;
-/*!40000 ALTER TABLE `team` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `team_user`
---
-
-DROP TABLE IF EXISTS `team_user`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `team_user` (
-  `team_id` int NOT NULL,
-  `user_id` int NOT NULL,
-  PRIMARY KEY (`team_id`,`user_id`),
-  KEY `IDX_ed60beadf0e6dffb2b9a5d164e` (`team_id`),
-  KEY `IDX_32437794ab1a0519530561ea15` (`user_id`),
-  CONSTRAINT `FK_32437794ab1a0519530561ea159` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `FK_ed60beadf0e6dffb2b9a5d164e4` FOREIGN KEY (`team_id`) REFERENCES `team` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `team_user`
---
-
-LOCK TABLES `team_user` WRITE;
-/*!40000 ALTER TABLE `team_user` DISABLE KEYS */;
-/*!40000 ALTER TABLE `team_user` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `type_event`
---
-
-DROP TABLE IF EXISTS `type_event`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `type_event` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `typeEvent` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `type_event`
---
-
-LOCK TABLES `type_event` WRITE;
-/*!40000 ALTER TABLE `type_event` DISABLE KEYS */;
-/*!40000 ALTER TABLE `type_event` ENABLE KEYS */;
+LOCK TABLES `seance_user` WRITE;
+/*!40000 ALTER TABLE `seance_user` DISABLE KEYS */;
+/*!40000 ALTER TABLE `seance_user` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -505,87 +365,6 @@ CREATE TABLE `typeabonnement` (
 LOCK TABLES `typeabonnement` WRITE;
 /*!40000 ALTER TABLE `typeabonnement` DISABLE KEYS */;
 /*!40000 ALTER TABLE `typeabonnement` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `user_event`
---
-
-DROP TABLE IF EXISTS `user_event`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `user_event` (
-  `user_id` int NOT NULL,
-  `event_id` int NOT NULL,
-  PRIMARY KEY (`user_id`,`event_id`),
-  KEY `IDX_e39ffa0fac3ca53674b151e259` (`user_id`),
-  KEY `IDX_dbb01827843862e452b97065d5` (`event_id`),
-  CONSTRAINT `FK_dbb01827843862e452b97065d5c` FOREIGN KEY (`event_id`) REFERENCES `event` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `FK_e39ffa0fac3ca53674b151e2591` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `user_event`
---
-
-LOCK TABLES `user_event` WRITE;
-/*!40000 ALTER TABLE `user_event` DISABLE KEYS */;
-/*!40000 ALTER TABLE `user_event` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `user_period`
---
-
-DROP TABLE IF EXISTS `user_period`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `user_period` (
-  `period_id` int NOT NULL,
-  `user_id` int NOT NULL,
-  PRIMARY KEY (`period_id`,`user_id`),
-  KEY `IDX_74de2342ff31b566caf33655d2` (`period_id`),
-  KEY `IDX_a15f0e7463dae4335a3413f047` (`user_id`),
-  CONSTRAINT `FK_74de2342ff31b566caf33655d2e` FOREIGN KEY (`period_id`) REFERENCES `period` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `FK_a15f0e7463dae4335a3413f0474` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `user_period`
---
-
-LOCK TABLES `user_period` WRITE;
-/*!40000 ALTER TABLE `user_period` DISABLE KEYS */;
-/*!40000 ALTER TABLE `user_period` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `user_role`
---
-
-DROP TABLE IF EXISTS `user_role`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `user_role` (
-  `user_id` int NOT NULL,
-  `role_id` int NOT NULL,
-  PRIMARY KEY (`user_id`,`role_id`),
-  KEY `IDX_d0e5815877f7395a198a4cb0a4` (`user_id`),
-  KEY `IDX_32a6fc2fcb019d8e3a8ace0f55` (`role_id`),
-  CONSTRAINT `FK_32a6fc2fcb019d8e3a8ace0f55f` FOREIGN KEY (`role_id`) REFERENCES `role` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `FK_d0e5815877f7395a198a4cb0a46` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `user_role`
---
-
-LOCK TABLES `user_role` WRITE;
-/*!40000 ALTER TABLE `user_role` DISABLE KEYS */;
-/*!40000 ALTER TABLE `user_role` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -628,7 +407,9 @@ CREATE TABLE `users` (
   `last_name` varchar(255) NOT NULL,
   `gender` enum('male','female') NOT NULL DEFAULT 'male',
   `birthDate` datetime NOT NULL,
-  `adress` varchar(255) NOT NULL,
+  `rue` varchar(255) NOT NULL,
+  `commune` varchar(255) NOT NULL,
+  `ville` varchar(255) NOT NULL,
   `actif` tinyint NOT NULL DEFAULT '1',
   `attributionDate` datetime NOT NULL,
   `gsm` varchar(255) NOT NULL,
@@ -640,7 +421,7 @@ CREATE TABLE `users` (
   UNIQUE KEY `IDX_97672ac88f789774dd47f7c8be` (`email`),
   KEY `FK_2735b8ee71c0fa7f68190fe61b5` (`levelId`),
   CONSTRAINT `FK_2735b8ee71c0fa7f68190fe61b5` FOREIGN KEY (`levelId`) REFERENCES `level` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -649,6 +430,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
+INSERT INTO `users` VALUES (1,'super','man','male','2023-09-18 00:00:00','Rue des Coteaux 181','schaerbeek','bruxelles',1,'2023-09-27 23:53:09','0485/171-906','superman@hotmail.com','$2b$12$f1LjfLaReDZIAuOgUV7YQ.a6fauBDIwTSZA3wfMt/aIz/aAqbfIa.','admin',4),(2,'super','woman','male','2023-09-18 00:00:00','Rue des gallait 181','schaerbeek','bruxelles',1,'2023-09-27 23:53:37','0485/171-906','superwoman@hotmail.com','$2b$12$venJg2qZ2uVcdI6ice8B5.nW0r8Gs0PisOr.wRKq32aMZVGYvxKES','member',4);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -661,4 +443,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-09-19 22:48:50
+-- Dump completed on 2023-09-28  0:02:21

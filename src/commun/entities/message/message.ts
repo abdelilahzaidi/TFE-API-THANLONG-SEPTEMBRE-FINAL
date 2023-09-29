@@ -1,4 +1,3 @@
-// message.entity.ts
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, ManyToMany, JoinTable } from 'typeorm';
 import { UserEntity } from '../user/user';
 
@@ -12,6 +11,8 @@ export class MessageEntity {
 
   @Column()
   contenu: string;
+  @Column()
+  dateHeureEnvoie : Date
 
   @ManyToMany(() => UserEntity, (user) => user.receivedMessages)
   @JoinTable({

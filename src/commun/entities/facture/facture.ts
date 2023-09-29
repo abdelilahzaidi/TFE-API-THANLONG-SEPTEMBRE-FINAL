@@ -12,9 +12,8 @@ export class FactureEntity{
     dateEnvoie : Date;
     @Column()
     etatDePaiement :  boolean; 
-    @Column()
-    montant:number;
-   
+    @Column({type:'decimal',precision:5,scale:2})
+    montant:number;   
     @ManyToOne(() => AbonnementEntity, (abonnement) => abonnement.factures)
     abonnement: AbonnementEntity;
         

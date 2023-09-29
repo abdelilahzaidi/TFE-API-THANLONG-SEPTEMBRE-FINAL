@@ -1,5 +1,4 @@
 import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
-import { UserEntity } from "../user/user";
 import { LieuEntity } from "../lieu/lieu";
 import { SeanceEntity } from "../seance/seance";
 

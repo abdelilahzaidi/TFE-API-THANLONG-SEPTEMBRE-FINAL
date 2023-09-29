@@ -1,4 +1,3 @@
-// create-message.dto.ts
 import { IsString, IsArray, IsInt } from 'class-validator';
 
 export class CreateMessageDto {
@@ -11,6 +10,6 @@ export class CreateMessageDto {
   @IsArray()
   receivers: number[]; 
 
-  @IsInt() // Ajoutez cette validation pour senderId
+  @IsInt() 
   senderId: number;
 }

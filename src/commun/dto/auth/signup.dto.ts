@@ -2,10 +2,7 @@ import {
     IsBoolean,
   IsEmail,
   IsIn,
-  IsNotEmpty,
-  IsString,
-  Matches,
-  MinLength,
+  IsNotEmpty,  
 } from 'class-validator';
 import { UserGender } from 'src/commun/enums/gender.enum';
 import { LevelEnum } from 'src/commun/enums/level.enum';
@@ -24,29 +21,17 @@ export class SignUpDTO {
   email: string;
 
   @IsNotEmpty()
-  //@IsString()
-  //@MinLength(8)
-  //@Matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*]).{8,20}$/, {
-  //   message:
-  //     'password too weak, include in your password a special character and capital letter',
-  // })
   password: string;
 
-  @IsNotEmpty()
-  //@IsString()
-  //@MinLength(8)
-  // @Matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*]).{8,20}$/, {
-  //   message:
-  //     'password too weak, include in your password a special character and capital letter',
-  // })
+  @IsNotEmpty()  
   password_confirm: string;
 
   @IsNotEmpty()
-  @IsIn(['member', 'admin'], { message: 'Invalid status' }) // Utilisation de @IsIn pour vérifier les valeurs autorisées
+  @IsIn(['member', 'admin'], { message: 'Invalid status' }) 
   status: UserStatus;
 
   @IsNotEmpty()
-  @IsIn(['male', 'female'], { message: 'Invalid gender' }) // Utilisation de @IsIn pour vérifier les valeurs autorisées
+  @IsIn(['male', 'female'], { message: 'Invalid gender' }) 
   gender: UserGender
 
   @IsNotEmpty()
@@ -65,6 +50,6 @@ export class SignUpDTO {
   @IsNotEmpty()
   gsm: string;
   constructor() {
-    this.status = UserStatus.MEMBER; // Valeur par défaut "member"
+    this.status = UserStatus.MEMBER; 
 }
 }

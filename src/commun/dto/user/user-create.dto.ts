@@ -16,19 +16,26 @@ export class UserCreateDTO{
     email: string;   
   
     @IsNotEmpty()
-    @IsIn(['member', 'admin'], { message: 'Invalid status' }) // Utilisation de @IsIn pour vérifier les valeurs autorisées
+    @IsIn(['member', 'admin','responsale'], { message: 'Invalid status' }) 
     status: UserStatus;
 
 
     @IsNotEmpty()
-    @IsIn(['male', 'female'], { message: 'Invalid gender' }) // Utilisation de @IsIn pour vérifier les valeurs autorisées   
+    @IsIn(['male', 'female'], { message: 'Invalid gender' }) 
     gender: UserGender;
   
     @IsNotEmpty()
     birthDate: Date;
   
+    
     @IsNotEmpty()
-    adress: string;
+    rue: string;
+
+    @IsNotEmpty()
+    commune: string;
+
+    @IsNotEmpty()
+    ville: string;
   
     @IsNotEmpty()
     @IsBoolean()

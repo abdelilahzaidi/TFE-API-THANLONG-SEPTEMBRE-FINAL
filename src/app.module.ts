@@ -15,12 +15,15 @@ import { FactureModule } from './modules/facture/facture.module';
 import { AbonnementModule } from './modules/abonnement/abonnement.module';
 import { TypeAbonnementModule } from './modules/type-abonnement/type-abonnement.module';
 import { DateCourModule } from './modules/date-cour/date-cour.module';
-import { SeanceUserModule } from './modules/seance-user/seance-user.module';
-
 import { MessageController } from './modules/message/message.controller';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      envFilePath: '.env',
+      isGlobal: true
+    }),
     BdModule,
     AuthModule,
     UserModule,
@@ -35,7 +38,7 @@ import { MessageController } from './modules/message/message.controller';
     AbonnementModule,
     TypeAbonnementModule,
     DateCourModule,
-    SeanceUserModule    
+    
   ],
   controllers: [AppController, MessageController],
   providers: [AppService],

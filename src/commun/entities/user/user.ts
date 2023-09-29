@@ -12,7 +12,7 @@ import { SeanceUserEntity } from '../seance_user/seance-user';
 @Entity('users')
 export class UserEntity {
   @PrimaryGeneratedColumn()
-  id: number;
+  id?: number;
 
   @Column()
   first_name: string;
@@ -27,7 +27,13 @@ export class UserEntity {
   birthDate: Date;
 
   @Column()
-  adress: string;
+  rue: string;
+
+  @Column()
+  commune: string;
+
+  @Column()
+  ville: string;
 
   @Column({ default: true })
   actif: boolean;
@@ -63,22 +69,22 @@ export class UserEntity {
       referencedColumnName: 'id',
     },
   })
-  receivedMessages: MessageEntity[];
+  receivedMessages?: MessageEntity[];
 
   @OneToMany(() => MessageEntity, (message) => message.sender)
-  sentMessages: MessageEntity[];
+  sentMessages?: MessageEntity[];
 
-  @ManyToMany(() => SeanceEntity, (seance) => seance.users)
-  @JoinTable({
-    name: 'user_seance',
-    joinColumn: { name: 'user_id', referencedColumnName: 'id' },
-    inverseJoinColumn: { name: 'seance_id', referencedColumnName: 'id' },
-  })
-  seances: SeanceEntity[];
+  // @ManyToMany(() => SeanceEntity, (seance) => seance.users)
+  // @JoinTable({
+  //   name: 'user_seance',
+  //   joinColumn: { name: 'user_id', referencedColumnName: 'id' },
+  //   inverseJoinColumn: { name: 'seance_id', referencedColumnName: 'id' },
+  // })
+  // seances: SeanceEntity[];
 
   @OneToMany(() => SeanceUserEntity, (seanceUser) => seanceUser.user)
-  seanceUsers: SeanceUserEntity[];
+  seanceUsers?: SeanceUserEntity[];
 
   @OneToMany(() => AbonnementEntity, (abonnement) => abonnement.user)
-  abonnements: AbonnementEntity[];
+  abonnements?: AbonnementEntity[];
 }

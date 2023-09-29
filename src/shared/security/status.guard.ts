@@ -21,14 +21,12 @@ export class StatusGuard implements CanActivate {
         if (!requiredStatus) {
             return true
         }
-
         const request = context.switchToHttp().getRequest();    
         const tokenParts = request.headers.authorization?.split(' ') || []
 
         if (tokenParts.length <= 0 || tokenParts[0] !== 'Bearer') {
             return false
         }
-
 
         let decoded: any = jwt.verify(tokenParts[1], '14101983')
 

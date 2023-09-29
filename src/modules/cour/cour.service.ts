@@ -1,6 +1,5 @@
-import { ConflictException, Injectable } from '@nestjs/common';
+import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { CreateLieuDto } from 'src/commun/dto/lieu/lieu-create.dto';
 import { CourEntity } from 'src/commun/entities/cour/cour';
 import { Repository } from 'typeorm';
 import { LieuService } from '../lieu/lieu.service';
@@ -18,10 +17,10 @@ export class CourService {
         return await this.courRepository.find();
       }
 
-      async createLevel(dto: CreateCourDTO): Promise<CourEntity> {
+      async createCour(dto: CreateCourDTO): Promise<CourEntity> {
         try {
             const lieu = await this.lieuService.findLieuById(dto.lieuId); // Récupérez le programme associé
-
+            console.log('lieu',lieu)
             const cour = new CourEntity();
             cour.objectifDuCour=dto.objectifDuCour
             cour.lieu=lieu      
@@ -32,13 +31,13 @@ export class CourService {
             console.log('in service', savedCour);
             return savedCour;
         } catch (error) {
-            if (error.code === '23505') {
-                throw new ConflictException('Duplicate Entry');
-            }
-            throw error;
+          throw new InternalServerErrorException(
+            error,
+            "Une erreur est survenue lors de la création du niveau.",
+          );
         }
     }    
-      async findLevelById(id: number): Promise<CourEntity | undefined> {
+      async findCourById(id: number): Promise<CourEntity | undefined> {
         return this.courRepository.findOne({ where: { id } });
       }
 }

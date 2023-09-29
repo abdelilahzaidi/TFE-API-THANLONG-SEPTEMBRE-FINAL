@@ -18,6 +18,6 @@ export class CourController {
     @Post()
     async create(@Body() dto : CreateCourDTO): Promise<CourEntity> {
       console.log(dto)
-      return await this.courService.createLevel(dto);
+      return await this.courService.createCour(dto);
     }
 }

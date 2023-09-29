@@ -23,6 +23,5 @@ export class AbonnementEntity{
 
   @ManyToOne(() => TypeAbonnementEntity, (typeAbonnement) => typeAbonnement.abonnements)
   typeAbonnement: TypeAbonnementEntity;
-    
 
 }

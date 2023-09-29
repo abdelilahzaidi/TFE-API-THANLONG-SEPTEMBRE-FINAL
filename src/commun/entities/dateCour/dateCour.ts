@@ -10,7 +10,6 @@ export class DateCourEntity{
     dateCour: Date;
 
     @OneToMany(() => SeanceEntity, (seance) => seance.dateCour)
-    seances: SeanceEntity[];
- 
+    seances: SeanceEntity[]; 
     
 }

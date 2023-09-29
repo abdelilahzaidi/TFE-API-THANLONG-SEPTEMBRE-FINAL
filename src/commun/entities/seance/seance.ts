@@ -9,13 +9,6 @@ import { SeanceUserEntity } from "../seance_user/seance-user";
 export class SeanceEntity{
     @PrimaryGeneratedColumn()
     id: number;
-    @ManyToMany(() => UserEntity, (user) => user.seances)
-  @JoinTable({
-    name: 'user_seance',
-    joinColumn: { name: 'seance_id', referencedColumnName: 'id' },
-    inverseJoinColumn: { name: 'user_id', referencedColumnName: 'id' },
-  })
-  users: UserEntity[];
   @ManyToOne(() => HoraireEntity, (horaire) => horaire.seances)
   horaire: HoraireEntity;
 
