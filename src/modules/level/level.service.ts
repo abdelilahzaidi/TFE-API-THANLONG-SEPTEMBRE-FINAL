@@ -8,7 +8,7 @@ import { CreateLevelDto } from 'src/commun/dto/level/level-create.dto';
 import { LevelEntity } from 'src/commun/entities/level/level';
 import { Repository } from 'typeorm';
 import { ProgramService } from '../program/program.service';
-import { LevelEnum } from 'src/commun/enums/level.enum';
+
 
 @Injectable()
 export class LevelService {
@@ -49,7 +49,7 @@ export class LevelService {
     return this.levelRepository.findOne({ where: { id } });
   }
 
-  async findLevelByGrade(grade: LevelEnum): Promise<LevelEntity | undefined> {
+  async findLevelByGrade(grade: string): Promise<LevelEntity | undefined> {
     return this.levelRepository.findOne({ where: { grade } });
   }
   async update(id: number, data): Promise<any> {

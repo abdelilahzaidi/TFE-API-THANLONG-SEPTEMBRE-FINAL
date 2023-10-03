@@ -1,6 +1,13 @@
-import { registerDecorator, ValidationOptions, ValidationArguments } from 'class-validator';
+import {
+  registerDecorator,
+  ValidationOptions,
+  ValidationArguments,
+} from 'class-validator';
 
-export function IsGreaterThanDate(property: string, validationOptions?: ValidationOptions) {
+export function IsGreaterThanDate(
+  property: string,
+  validationOptions?: ValidationOptions,
+) {
   return function (object: Object, propertyName: string) {
     registerDecorator({
       name: 'isGreaterThanDate',
@@ -12,7 +19,7 @@ export function IsGreaterThanDate(property: string, validationOptions?: Validati
         validate(value: any, args: ValidationArguments) {
           const [relatedPropertyName] = args.constraints;
           const relatedValue = (args.object as any)[relatedPropertyName];
-          return  new Date(value) > new Date(relatedValue); 
+          return new Date(value) > new Date(relatedValue);
         },
       },
     });

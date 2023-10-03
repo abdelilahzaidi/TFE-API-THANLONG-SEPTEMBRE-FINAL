@@ -1,4 +1,6 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
+
+import { ConflictException, Injectable, InternalServerErrorException } from '@nestjs/common';
+
 import { InjectRepository } from '@nestjs/typeorm';
 import { CourEntity } from 'src/commun/entities/cour/cour';
 import { Repository } from 'typeorm';
@@ -33,7 +35,9 @@ export class CourService {
         } catch (error) {
           throw new InternalServerErrorException(
             error,
+
             "Une erreur est survenue lors de la création du niveau.",
+
           );
         }
     }    

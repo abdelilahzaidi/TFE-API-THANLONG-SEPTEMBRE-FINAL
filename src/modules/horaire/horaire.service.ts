@@ -10,6 +10,7 @@ import { Repository } from 'typeorm';
 
 @Injectable()
 export class HoraireService {
+
   constructor(
     @InjectRepository(HoraireEntity)
     private readonly horaireRepository: Repository<HoraireEntity>,
@@ -19,14 +20,11 @@ export class HoraireService {
     return await this.horaireRepository.find();
   }
 
-  async createLieu(dto: CreateHoraireDto): Promise<HoraireEntity> {
+  async createHoraire(dto: CreateHoraireDto): Promise<HoraireEntity> {
     try {
       const horaire = new HoraireEntity();
       horaire.heureDebut = dto.heureDebut;
-      horaire.heureFin = dto.heureFin;
-      if (horaire.heureDebut > horaire.heureFin) {
-        throw new HttpException('Heure debut ', 400);
-      }
+      horaire.heureFin = dto.heureFin;     
       horaire.jour = dto.jour;
 
       const savedHoraire = await this.horaireRepository.save(horaire);
@@ -44,4 +42,5 @@ export class HoraireService {
   async findHoraireById(id: number): Promise<HoraireEntity | undefined> {
     return this.horaireRepository.findOne({ where: { id } });
   }
+
 }

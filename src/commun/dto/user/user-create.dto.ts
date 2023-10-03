@@ -1,8 +1,6 @@
 import { IsBoolean, IsEmail, IsIn, IsNotEmpty } from "class-validator";
 import { UserGender } from "src/commun/enums/gender.enum";
-import { LevelEnum } from "src/commun/enums/level.enum";
 import { UserStatus } from "src/commun/enums/status.enum";
-
 
 export class UserCreateDTO{
     @IsNotEmpty()
@@ -16,7 +14,7 @@ export class UserCreateDTO{
     email: string;   
   
     @IsNotEmpty()
-    @IsIn(['member', 'admin','responsale'], { message: 'Invalid status' }) 
+    @IsIn(['member', 'admin','responsable'], { message: 'Invalid status' }) 
     status: UserStatus;
 
 
@@ -46,6 +44,6 @@ export class UserCreateDTO{
     gsm: string;
 
     @IsNotEmpty()
-    grade:LevelEnum;
+    grade:string;
    
 }

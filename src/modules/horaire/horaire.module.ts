@@ -11,6 +11,8 @@ import { HoraireController } from './horaire.controller';
       ],
       providers: [HoraireService],
       controllers: [HoraireController],
+
       exports:[HoraireService]
+
 })
 export class HoraireModule {}

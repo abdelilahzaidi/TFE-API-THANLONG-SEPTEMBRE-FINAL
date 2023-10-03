@@ -3,6 +3,7 @@ import { SeanceService } from './../seance/seance.service';
 import { LevelService } from './../level/level.service';
 import { UserEntity } from './../../commun/entities/user/user';
 import {
+
   ConflictException,
   HttpException,
   HttpStatus,
@@ -11,15 +12,10 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { UserCreateDTO } from 'src/commun/dto/user/user-create.dto';
 import { UserSeanceDTO } from 'src/commun/dto/user/user-seance.dto';
-import { UserInDTO } from '../auth/auth.dto';
-
-
-
 
 @Injectable()
 export class UserService {
@@ -27,23 +23,27 @@ export class UserService {
     @InjectRepository(UserEntity)
     private readonly userRepository: Repository<UserEntity>,
     private readonly levelService: LevelService,
+
     @InjectRepository(SeanceUserEntity)
     private readonly userSeanceRepository : Repository<SeanceUserEntity>,
    private readonly seanceService: SeanceService
   ) {}
+
   async all(): Promise<UserEntity[]> {
     
-    return await this.userRepository.find({select:['id','first_name','last_name','gender','birthDate','rue','commune','ville','actif','gsm','email','status'],relations:['level']});
+    return await this.userRepository.find({select:['id','first_name','last_name','gender','birthDate','attributionDate','rue','commune','ville','actif','gsm','email','status'],relations:['level']});
   }
 
   async createUser(dto: UserCreateDTO): Promise<UserEntity> {
     const hashedPassword = await bcrypt.hash('Zah14$01471983', 12);
     try {
+
       const level = await this.levelService.findLevelByGrade(dto.grade);
       if (!level) {
         console.log('42')
         throw new NotFoundException(`Level with ID ${dto.grade} not found.`);
       }
+
       const userFound = await this.userRepository.findOne({
         where: { email: dto.email },
       });
@@ -51,6 +51,7 @@ export class UserService {
         console.log('49')
         throw new ConflictException('Cette adresse e-mail est déjà utilisée.');
       }
+
       const user = <UserEntity>{...dto,password:hashedPassword, attributionDate : new Date(), level: level}
       const seances = await this.seanceService.getAllFuturSeances();
       const userSaved = await this.userRepository.save(user);
@@ -58,6 +59,7 @@ export class UserService {
         this.userSeanceRepository.save({userId:userSaved.id, seanceId : seance.id, presence:false})
       }
       return userSaved;
+
     } catch (error) {
       console.log('59')
       throw new InternalServerErrorException(
@@ -72,10 +74,11 @@ export class UserService {
   }
 
   async update(id: number, dto: UserCreateDTO): Promise<any> {
-    console.log(dto);
+
+    console.log(dto)
     try {
-      const level = await this.levelService.findLevelByGrade(dto.grade);
-      console.log(level);
+      const level = await this.levelService.findLevelByGrade(dto.grade)
+      console.log(level)
       if (!level) {
         throw new NotFoundException(`Level with ID ${dto.grade} not found.`);
       }
@@ -85,6 +88,7 @@ export class UserService {
       user.last_name = dto.last_name;
       user.email = dto.email;
       user.gender = dto.gender;
+
       user.rue = dto.rue;
       user.commune = dto.commune;
       user.ville = dto.ville;
@@ -95,6 +99,8 @@ export class UserService {
       user.level = level;
       user.status = dto.status;
       console.log('user modifié', this.userRepository.update(id, user));
+
+      
       return this.userRepository.update(id, user);
     } catch (error) {
       throw new InternalServerErrorException(
@@ -102,6 +108,8 @@ export class UserService {
         "Une erreur est survenue lors de la modification de l'utilisateur.",
       );
     }
+
+
   }
 
   async delete(id: number): Promise<any> {
@@ -152,4 +160,5 @@ export class UserService {
     }
     catch(error){}
   }
+
 }

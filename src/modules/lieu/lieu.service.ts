@@ -1,4 +1,4 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import { ConflictException, Injectable, InternalServerErrorException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateLieuDto } from 'src/commun/dto/lieu/lieu-create.dto';
 import { LieuEntity } from 'src/commun/entities/lieu/lieu';
@@ -15,6 +15,7 @@ export class LieuService {
     return await this.lieuRepository.find();
   }
 
+
   async createLieu(dto: CreateLieuDto): Promise<LieuEntity> {
     try {
       const lieu = new LieuEntity();
@@ -22,7 +23,9 @@ export class LieuService {
       lieu.commune = dto.commune;
       lieu.ville = dto.ville;
 
+
       const savedLieu = await this.lieuRepository.save(lieu);
+
 
       console.log('in service', savedLieu);
       return savedLieu;

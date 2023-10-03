@@ -36,6 +36,11 @@ export class AuthController {
     return signInMapper(token, user)
   }
 
+   @Get("")
+   async test() {
+    console.log(process.env.DB_USERNAME)
+   }
+
 //Get current user
   @Get('user')
   @UseGuards(AuthGuard())

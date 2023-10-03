@@ -37,6 +37,7 @@ async signup(signUpDto: SignUpDTO): Promise<UserEntity> {
             error,
             "Une erreur est survenue lors de l'inscrpition.",
           );
+
     }
 }
 

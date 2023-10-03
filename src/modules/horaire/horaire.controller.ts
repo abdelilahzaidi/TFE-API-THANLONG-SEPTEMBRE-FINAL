@@ -16,7 +16,7 @@ export class HoraireController {
     @Post()
     async create(@Body() dto : CreateHoraireDto): Promise<HoraireEntity> {
       console.log(dto)
-      return await this.horaireService.createLieu(dto);
+      return await this.horaireService.createHoraire(dto);
     }
 
     @Get(':id')

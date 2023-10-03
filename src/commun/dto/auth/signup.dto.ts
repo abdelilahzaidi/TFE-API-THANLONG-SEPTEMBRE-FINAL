@@ -5,7 +5,6 @@ import {
   IsNotEmpty,  
 } from 'class-validator';
 import { UserGender } from 'src/commun/enums/gender.enum';
-import { LevelEnum } from 'src/commun/enums/level.enum';
 import { UserStatus } from 'src/commun/enums/status.enum';
 
 
@@ -27,7 +26,7 @@ export class SignUpDTO {
   password_confirm: string;
 
   @IsNotEmpty()
-  @IsIn(['member', 'admin'], { message: 'Invalid status' }) 
+  @IsIn(['member', 'admin','responsale'], { message: 'Invalid status' }) 
   status: UserStatus;
 
   @IsNotEmpty()
@@ -35,13 +34,19 @@ export class SignUpDTO {
   gender: UserGender
 
   @IsNotEmpty()
-    grade:LevelEnum;
+    grade:string;
 
   @IsNotEmpty()
   birthDate: Date;
 
   @IsNotEmpty()
-  adress: string;
+  rue: string;
+
+  @IsNotEmpty()
+  commune: string;
+
+  @IsNotEmpty()
+  ville: string;
 
   @IsNotEmpty()
   @IsBoolean()
