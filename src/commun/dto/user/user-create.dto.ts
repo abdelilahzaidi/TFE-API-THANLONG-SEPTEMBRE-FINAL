@@ -44,6 +44,6 @@ export class UserCreateDTO{
     gsm: string;
 
     @IsNotEmpty()
-    grade:string;
+    grade:number;
    
 }

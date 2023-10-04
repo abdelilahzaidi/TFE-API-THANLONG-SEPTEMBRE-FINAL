@@ -38,7 +38,7 @@ export class UserService {
     const hashedPassword = await bcrypt.hash('Zah14$01471983', 12);
     try {
 
-      const level = await this.levelService.findLevelByGrade(dto.grade);
+      const level = await this.levelService.findLevelById(dto.grade);
       if (!level) {
         console.log('42')
         throw new NotFoundException(`Level with ID ${dto.grade} not found.`);
@@ -77,7 +77,7 @@ export class UserService {
 
     console.log(dto)
     try {
-      const level = await this.levelService.findLevelByGrade(dto.grade)
+      const level = await this.levelService.findLevelById(dto.grade)
       console.log(level)
       if (!level) {
         throw new NotFoundException(`Level with ID ${dto.grade} not found.`);
